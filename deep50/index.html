@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="et"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#17142b"><title>Südamest südamesse · 50 küsimust</title>
+<style>
+*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 75% 0%,#51385c 0,transparent 45%),linear-gradient(150deg,#17142b,#24172f 65%,#1b1a32);font-family:system-ui,-apple-system,Segoe UI,sans-serif;color:#fdf6f8}main{max-width:580px;margin:auto;padding:28px 20px 60px}.logo{text-align:center;color:#e7b9c8;letter-spacing:.22em;font-size:12px;font-weight:800;margin:16px 0 8px}h1{text-align:center;font-family:Georgia,serif;font-weight:400;font-size:clamp(36px,9vw,56px);margin:10px 0 6px}p.sub{text-align:center;color:#c9b9cc;line-height:1.55;margin:0 0 26px}.panel{background:#ffffff0d;border:1px solid #ffffff22;border-radius:24px;padding:25px;margin:20px 0;box-shadow:0 18px 50px #0002}.eyebrow{font-size:11px;letter-spacing:.2em;color:#e6a8bf;text-transform:uppercase;font-weight:800}.question{font:400 clamp(27px,6vw,38px)/1.27 Georgia,serif;min-height:165px;margin:28px 0}.muted{color:#c7b9c9;font-size:14px;line-height:1.6}button{cursor:pointer;border:0;border-radius:16px;padding:15px 19px;font-size:15px;font-weight:750;background:#e9afc4;color:#271b2d;transition:transform .15s}button:active{transform:scale(.97)}button.secondary{background:#ffffff15;color:#fff;border:1px solid #ffffff28}button:disabled{opacity:.4;cursor:default}.actions{display:flex;gap:10px;flex-wrap:wrap}.actions button{flex:1}input{width:100%;padding:15px;border:1px solid #ffffff55;border-radius:13px;background:#1c192e;color:#fff;font:inherit;margin:8px 0 15px}label{display:block;color:#d7c9d7;font-size:13px}.progress{height:8px;background:#ffffff22;border-radius:99px;overflow:hidden;margin:16px 0}.bar{height:100%;background:linear-gradient(90deg,#e9afc4,#f2d9a4);transition:width .3s}.meta{display:flex;justify-content:space-between;gap:10px;font-size:13px;color:#d3c4d3}.hidden{display:none!important}.pill{display:inline-block;padding:8px 12px;border-radius:99px;background:#ffffff15;color:#f6d9e4;font-size:13px;margin:5px 5px 5px 0}.center{text-align:center}.linkbox{overflow-wrap:anywhere;background:#110f23;border:1px solid #ffffff30;padding:14px;border-radius:12px;margin:12px 0;font-size:13px}.spark{font-size:34px;text-align:center;margin-top:25px}#status{font-size:13px;text-align:center;color:#c9b8c9;min-height:20px;margin:12px}.level{color:#e5b2c5;font-size:12px;text-transform:uppercase;letter-spacing:.13em}.footer{text-align:center;color:#aa98ae;font-size:12px;margin-top:30px}
+</style></head><body><main>
+<div class="logo">✦ KAHE INIMESE MÄNG ✦</div><h1>Südamest<br>südamesse</h1><p class="sub">50 küsimust. Kaks inimest. Üks päris vestlus. ♡</p>
+<section id="home" class="panel"><div class="eyebrow">Alustame</div><p class="muted">Mängige kahel telefonil. Loo tuba ja saada partnerile kutselink. Vastuseid ei salvestata — räägite omavahel.</p><label>Sinu nimi</label><input id="name" maxlength="24" placeholder="Näiteks Mari"><div class="actions"><button id="create">Loo uus mäng ✨</button></div><p class="muted">Kui avasid partneri lingi, vajuta „Liitu mänguga”.</p><button class="secondary" id="join">Liitu mänguga →</button></section>
+<section id="lobby" class="panel hidden"><div class="eyebrow">Teie privaatne mängutuba</div><h2>Oota partnerit ♡</h2><p class="muted">Saada allolev link teisele inimesele. Küsimused avanevad, kui mõlemad on liitunud.</p><div id="sharelink" class="linkbox"></div><div class="actions"><button id="copy">Kopeeri kutselink</button><button id="share" class="secondary">Jaga ↗</button></div><p id="players" class="muted"></p></section>
+<section id="game" class="hidden"><div class="panel"><div class="meta"><span id="count"></span><span id="turn"></span></div><div class="progress"><div class="bar" id="bar"></div></div><div class="level" id="level"></div><div class="question" id="question"></div><p class="muted">Kuulake teineteist lõpuni. Vastata võib ka mõlemad — oma tempos. Kui küsimus ei sobi, jätke see vahele.</p><div class="actions"><button id="next">Järgmine küsimus →</button><button id="skip" class="secondary">Jäta vahele</button></div><p id="waiting" class="muted center"></p></div><div class="center"><span class="pill" id="skips"></span><span class="pill" id="step"></span></div></section>
+<section id="end" class="panel center hidden"><div class="spark">♡ ✨ ♡</div><h2>50 küsimust läbitud!</h2><p class="muted">Aitäh, et võtsite aega üksteist päriselt kuulata. Kõige olulisemad vastused ei mahu ühelegi ekraanile.</p><button id="restart">Alusta uut mängu</button></section>
+<div id="status"></div><div class="footer">Võtke aega · Jätke vahele, kui soovite · Olge ausad ja lahked</div>
+</main><script>
+const API='https://xdnqnngenhwkzubcijud.supabase.co/rest/v1/deep50_rooms',KEY='sb_publishable_zqk_oUhB8G3LI6DHYcildQ_4hsYkv95';
+const questions=[
+'Millal tundsid viimati, et keegi sind päriselt mõistab?',
+'Milline väike mälestus teeb sind alati õnnelikuks?',
+'Mida sa lapsepõlves kõige rohkem ootasid?',
+'Milline inimene on sind kõige rohkem kujundanud?',
+'Millises kohas tunned end tõeliselt kodus?',
+'Mis teeb tavalisest päevast sinu jaoks hea päeva?',
+'Millise komplimendi oled aastateks meelde jätnud?',
+'Milline ühine hetk vääriks sinu arvates kordamist?',
+'Mida tahaksid oma nooremale minale öelda?',
+'Millise unistuse oled endas alles hoidnud?',
+'Millal oled olnud enda üle kõige uhkem?',
+'Mida inimesed sinu juures sageli valesti mõistavad?',
+'Millist omadust sa teistes kõige rohkem imetled?',
+'Mis aitab sul keerulisel ajal rahu leida?',
+'Millist asja on sul raske abi paludes tunnistada?',
+'Milline läbikukkumine õpetas sulle midagi olulist?',
+'Millal oled tundnud, et pead olema keegi teine?',
+'Millise hirmu oled juba seljatanud?',
+'Mida tähendab sinu jaoks tõeline sõprus?',
+'Millal tundsid viimati, et oled täiesti vaba?',
+'Millest sa tahaksid rohkem rääkida, aga tavaliselt ei räägi?',
+'Millal on sul kõige raskem oma tundeid väljendada?',
+'Milline sinu uskumus on aja jooksul muutunud?',
+'Mida sa sooviksid, et teised sinu vaikimisest mõistaksid?',
+'Millise otsuse tegemiseks vajasid kõige rohkem julgust?',
+'Mis paneb sind tundma, et sind hinnatakse?',
+'Millal oled kellelegi andestanud, kuigi see oli raske?',
+'Millist osa endast näitad ainult vähestele?',
+'Milline on sinu jaoks usalduse kõige selgem märk?',
+'Mida sa vajad siis, kui oled kurb või väsinud?',
+'Milline ütlemata jäänud tänu on sul südames?',
+'Millist eluetappi tahaksid paremini mõista?',
+'Millal oled tundnud end üksikuna isegi teiste keskel?',
+'Milline tõde enda kohta oli sul raske omaks võtta?',
+'Millest oled loobunud, et kellelegi teisele meeldida?',
+'Mis aitab sul tunda end turvaliselt teise inimese kõrval?',
+'Milline mälestus on muutnud sinu arusaama armastusest?',
+'Millist küsimust sa sooviksid, et sinult sagedamini küsitaks?',
+'Mis on sinu jaoks suhtes või sõpruses kõige keerulisem?',
+'Milline piir on sinu jaoks eriti oluline?',
+'Kui sul poleks hirmu ebaõnnestuda, mida prooviksid?',
+'Mida soovid järgmise viie aasta jooksul enda juures kasvatada?',
+'Millise jälje tahaksid teiste inimeste ellu jätta?',
+'Mida tähendab sinu jaoks hästi elatud elu?',
+'Millise harjumuse või mõttemustri tahaksid maha jätta?',
+'Mille eest oled tänulik, mida varem iseenesestmõistetavaks pidasid?',
+'Milline ühine kogemus võiks meid paremini ühendada?',
+'Mida tahaksid, et ma sinu kohta paremini mõistaksin?',
+'Millist lubadust sooviksid endale täna anda?',
+'Kui sellest vestlusest jääks meelde ainult üks asi, mis see oleks?'
+];
+const levels=['Soojenemine · mälestused','Enese avastamine','Usaldus ja tunded','Sügavamad kihid','Tulevik ja tähendus'];
+const $=id=>document.getElementById(id);let room=null,me=null,roomId=new URLSearchParams(location.search).get('tuba'),busy=false,loading=false;
+$('name').value=localStorage.getItem('deep50name')||'';
+function show(id){['home','lobby','game','end'].forEach(k=>$(k).classList.toggle('hidden',k!==id))}
+function status(s){$('status').textContent=s||''}
+async function req(method,url,body){const r=await fetch(API+url,{method,headers:{'apikey':KEY,'Authorization':'Bearer '+KEY,'Content-Type':'application/json','Prefer':'return=representation'},body:body?JSON.stringify(body):undefined});if(!r.ok)throw Error((await r.text()).slice(0,180));return r.json()}
+async function load(){if(!roomId||loading)return;loading=true;try{let rows=await req('GET','?id=eq.'+encodeURIComponent(roomId)+'&select=*');if(!rows.length)throw Error('Mängutuba ei leitud.');room=rows[0];render();status('')}catch(e){status('Ühenduse viga: '+e.message)}finally{loading=false}}
+async function update(changes){if(busy)return;busy=true;try{let rows=await req('PATCH','?id=eq.'+roomId,{...changes,updated_at:new Date().toISOString()});room=rows[0];render()}catch(e){status('Salvestamine ebaõnnestus: '+e.message)}finally{busy=false}}
+async function enter(){let n=$('name').value.trim();if(!n){status('Palun sisesta oma nimi.');return}me=n;localStorage.setItem('deep50name',n);try{if(!roomId){let rows=await req('POST','',{players:[n]});room=rows[0];roomId=room.id;history.replaceState({},'',location.pathname+'?tuba='+roomId)}else{await load();if(!room)return;let p=room.players||[];if(!p.includes(n)){if(p.length>=2){status('Mängutuba on juba täis.');return}await update({players:[...p,n]})}}render()}catch(e){status('Ei saanud mängu alustada: '+e.message)}}
+function render(){if(!room||!me)return;let p=room.players||[];if(p.length<2){show('lobby');$('players').textContent='Liitunud: '+p.join(', ')+' · ootame teist mängijat';$('sharelink').textContent=location.href;return}if(room.question_index>=50||room.finished){show('end');return}show('game');let i=room.question_index,active=p[room.turn];$('count').textContent='KÜSIMUS '+(i+1)+' / 50';$('turn').textContent='Vastab: '+active;$('bar').style.width=(i/50*100)+'%';$('level').textContent=levels[Math.floor(i/10)];$('question').textContent=questions[i];$('skips').textContent='Vahele jäetud: '+room.skipped;$('step').textContent='Läbitud: '+i+'/50';let isTurn=active===me;$('next').disabled=!isTurn;$('skip').disabled=!isTurn;$('waiting').textContent=isTurn?'Sinu kord. Kui olete rääkinud, jätka järgmisega.':'Kuula partnerit. '+active+' juhib järgmist küsimust.'}
+$('create').onclick=()=>{roomId=null;enter()};$('join').onclick=()=>{if(!roomId){status('Ava partneri saadetud kutselink.');return}enter()};
+async function advance(skip){if(!room||room.players[room.turn]!==me)return;let i=room.question_index+1;await update({question_index:i,turn:1-room.turn,skipped:room.skipped+(skip?1:0),finished:i===50})}
+$('next').onclick=()=>advance(false);$('skip').onclick=()=>advance(true);$('copy').onclick=async()=>{try{await navigator.clipboard.writeText(location.href);status('Kutselink kopeeritud!')}catch{status('Kopeeri link aadressiribalt.')}};
+$('share').onclick=async()=>{if(navigator.share){try{await navigator.share({title:'Südamest südamesse',url:location.href})}catch{}}else $('copy').click()};
+$('restart').onclick=()=>{history.replaceState({},'',location.pathname);roomId=null;room=null;show('home')};
+if(roomId){show('home');$('create').classList.add('hidden');$('join').textContent='Liitu partneri mänguga ♡';status('Sisesta oma nimi ja liitu.')}setInterval(()=>{if(roomId&&me&&!busy)load()},1800);
+</script></body></html>
